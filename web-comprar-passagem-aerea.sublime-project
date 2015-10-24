@@ -1,0 +1,16 @@
+{
+    "folders":
+    [
+        {
+            "path": ".",
+            "folder_exclude_patterns": ["target"],
+        }
+    ],
+    "build_systems":
+    [
+        {
+            "name": "Compile & Deploy",
+            "shell_cmd": "dir=`pwd`; rootDir=`expr \\$dir : '\\(.*web-comprar-passagens-aereas\\)'`; cd \\$rootDir; ./deploy.sh"
+        }
+    ]
+}
