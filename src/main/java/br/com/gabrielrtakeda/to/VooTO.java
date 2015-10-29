@@ -3,20 +3,16 @@ package br.com.gabrielrtakeda.to;
 import java.io.Serializable;
 
 import br.com.gabrielrtakeda.to.AbstractTO;
-import br.com.gabrielrtakeda.model.Voo;
 
 public class VooTO extends AbstractTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     private int id;
-    private int aeronaveId;
-    private String aeronaveNome;
+    private AeronaveTO aeronave;
     private String codigo;
-    private int origemAeroportoId;
-    private String origemAeroportoNome;
-    private int destinoAeroportoId;
-    private String destinoAeroportoNome;
+    private AeroportoTO origemAeroporto;
+    private AeroportoTO destinoAeroporto;
     private String escalas;
     private String dataHora;
     private int assentosDisponiveis;
@@ -31,15 +27,9 @@ public class VooTO extends AbstractTO implements Serializable {
         return this;
     }
 
-    public int getAeronaveId() { return this.aeronaveId; }
-    public VooTO setAeronaveId(int aeronaveId) {
-        this.aeronaveId = aeronaveId;
-        return this;
-    }
-
-    public String getAeronaveNome() { return this.aeronaveNome; }
-    public VooTO setAeronaveNome(String aeronaveNome) {
-        this.aeronaveNome = aeronaveNome;
+    public AeronaveTO getAeronave() { return this.aeronave; }
+    public VooTO setAeronave(AeronaveTO aeronave) {
+        this.aeronave = aeronave;
         return this;
     }
 
@@ -49,27 +39,14 @@ public class VooTO extends AbstractTO implements Serializable {
         return this;
     }
 
-    public int getOrigemAeroportoId() { return this.origemAeroportoId; }
-    public VooTO setOrigemAeroportoId(int origemAeroportoId) {
-        this.origemAeroportoId = origemAeroportoId;
+    public AeroportoTO getOrigemAeroporto() { return this.origemAeroporto; }
+    public VooTO setOrigemAeroporto(AeroportoTO origemAeroporto) {
+        this.origemAeroporto = origemAeroporto;
         return this;
     }
-
-    public String getOrigemAeroportoNome() { return this.origemAeroportoNome; }
-    public VooTO setOrigemAeroportoNome(String origemAeroportoNome) {
-        this.origemAeroportoNome = origemAeroportoNome;
-        return this;
-    }
-
-    public int getDestinoAeroportoId() { return this.destinoAeroportoId; }
-    public VooTO setDestinoAeroportoId(int destinoAeroportoId) {
-        this.destinoAeroportoId = destinoAeroportoId;
-        return this;
-    }
-
-    public String getDestinoAeroportoNome() { return this.destinoAeroportoNome; }
-    public VooTO setDestinoAeroportoNome(String destinoAeroportoNome) {
-        this.destinoAeroportoNome = destinoAeroportoNome;
+    public AeroportoTO getDestinoAeroporto() { return this.destinoAeroporto; }
+    public VooTO setDestinoAeroporto(AeroportoTO destinoAeroporto) {
+        this.destinoAeroporto = destinoAeroporto;
         return this;
     }
 

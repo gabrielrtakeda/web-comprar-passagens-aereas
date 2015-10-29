@@ -7,7 +7,6 @@
 <div class="row">
   <h2>Consultar</h2>
   <form id="consultar"
-    action="${pageContext.request.contextPath}/api/aeronave/list/"
     method="GET"
     class="form-inline"
   >

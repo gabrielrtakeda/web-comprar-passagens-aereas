@@ -4,7 +4,7 @@
   pageEncoding="UTF-8"
 %>
 <!DOCTYPE html>
-<input id="input-id-aeronave" type="hidden" name="id" />
+<input id="input-id-aeronave" type="hidden" name="id" required />
 
 <div class="col-md-3 col-sm-12">
     <div class="form-group">
@@ -14,6 +14,7 @@
         class="form-control"
         placeholder="Ex: EMB"
         name="codigo"
+        required
       />
     </div>
 </div>
@@ -21,7 +22,7 @@
 <div class="col-md-3 col-sm-12">
     <div class="form-group">
       <label for="input-nome-aeronave">Nome</label>
-      <select id="input-nome-aeronave" class="form-control" name="nome" >
+      <select id="input-nome-aeronave" class="form-control" name="nome" required>
         <option value="-">Selecione...</option>
         <option value="Airbus A300">Airbus A300</option>
         <option value="Airbus A330">Airbus A330</option>
@@ -38,10 +39,11 @@
     <div class="form-group">
       <label for="input-quantidade-fileiras-aeronave">Qtd. Fileiras</label>
       <input id="input-quantidade-fileiras-aeronave"
-        type="text"
+        type="number"
         class="form-control"
         placeholder="Ex: 6"
         name="quantidadeFileiras"
+        required
       />
     </div>
 </div>
@@ -50,10 +52,11 @@
     <div class="form-group">
       <label for="input-quantidade-assentos-fileira-aeronave">Qtd. Assentos/Fileira</label>
       <input id="input-quantidade-assentos-fileira-aeronave"
-        type="text"
+        type="number"
         class="form-control"
         placeholder="Ex: 20"
         name="quantidadeAssentosFileira"
+        required
       />
     </div>
 </div>

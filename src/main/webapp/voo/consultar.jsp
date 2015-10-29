@@ -1,117 +1,197 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-pageEncoding="ISO-8859-1"%>
-<%@page import="java.util.*, java.text.*"%>
-<%@page import="model.*, to.*"%>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ page
+  language="java"
+  contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"
+%>
+<!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" type="text/css" href="style1.css">
-  <title>Consultar Voo</title>
+  <title>Alterar V么o</title>
+
+  <%-- CSS --%>
+  <jsp:include page="/template/common/css.jsp" />
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/voo.css" />
 </head>
+
 <body>
-  <div id="page-wrapper">
-    <div class="row">
-      <div class="col-lg-12">
-        <h1 class="page-header">Consultar Voo</h1>
-      </div> <!-- /.col-lg-12 -->
-    </div> <!-- /.row -->
+  <jsp:include page="/template/common/background.jsp" />
 
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            Dados do Voo
-          </div>
+  <header data-active="voo">
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Alterar V么o</h1>
+        <small id="clock"></small>
+      </div>
+    </div>
 
-          <form name="formulario"action="ConsultaVoo" method="post">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <form role="form">
-                    <div class="form-group">
-                      <td>
-                        <label for="senha">Tipo:</label>
-                        <td>
-                          <select size="1" name="Combo">
-                            <option selected  class="form-control" value="Selecione">Selecione!</option>
-                            <option value="2000">C骴igo</option>
-                            <option value="2001">Status</option>
-                            <option value="2001">Origem</option>
-                            <option value="2001">Destino</option>
-                          </select>
-                          <br />
-                        </td>
-                        <td>
-                          <label for="senha">Filtro:</label>
-                        </td>
-                        <td>
-                          <input class="form-control" NAME="Filtro">
-                        </td>
-                          <div class="container">
+    <jsp:include page="/template/common/header.jsp" />
+  </header>
 
-                            <table class="table table-condensed">
-                              <thead>
-                                <tr>
-                                  <th>Status</th>
-                                  <th>Hor醨io</th>
-                                  <th>Origem</th>
-                                  <th>Destino</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                <%
-                                int ids;
-                                String situacao;
-                                String dataHora;
-                                String origem;
-                                String destino;
-                                Voo voos = new Voo();
-                                VooTO vt = new VooTO();
-                                vt.voo = (ArrayList<Voo>)request.getSession().getAttribute("lstVoo");
-                                for( int i = 0; i < vt.voo.size(); i++) {
-                                voos = vt.voo.get(i);
-                                ids = voos.getId();
-                                situacao = voos.getSituacao();
-                                dataHora = voos.getData();
-                                origem = voos.getOrigem();
-                                destino = voos.getDestino();
-                                %>
+  <article>
+    <div class="container">
 
-                                <tr class="odd gradeX">
-
-                                  <td><%=ids%></td>
-                                  <td><%=situacao%></td>
-                                  <td><%=dataHora%></td>
-                                  <td><%=origem%></td>
-                                  <td><%=destino%></td>
-                                  <td><a href ="editarVoo.jsp?id = <%=ids%>&situacao = <%=situacao%>&dataHora=<%=dataHora%>&origem=<%=origem%>&destino=<%=destino%>">editar</a></td>
-                                  <td><a href ="deletaVoo.jsp?id = <%=ids%>">deletar</a></td>
-                                </tr>
-                                <% } %>
-                              </tbody>
-                            </table>
-                          </table>
-                        </div>
-                      </form>
-                      <div class="footer">
-                        <input type="button" name="botao" class="btn btn-default" value="Comprar"/>
+      <%-- Alerts --%>
+      <jsp:include page="/alert/error.jsp" />
+      <jsp:include page="/alert/success.jsp" />
 
 
-                      </div> <!-- /.col-lg-6 (nested) -->
-                    </div> <!-- /.row (nested) -->
+      <%-- V么o: Consultar --%>
+      <jsp:include page="/voo/partials/consultar-form.jsp" />
+      <jsp:include page="/voo/partials/consultar-table.jsp" />
+
+      <section id="voo-alterar-container" class="hide">
+        <%-- V么o: Alterar --%>
+        <form id="alterar-voo"
+          action="${pageContext.request.contextPath}/api/voo"
+          method="POST">
+          <input id="voo-id" type="hidden" name="id" required />
+          <input id="aeronave-id" type="hidden" name="aeronaveId" required />
+          <input id="submit-form" type="submit" class="hidden" />
+
+          <div class="container">
+            <div class="row">
+              <h2>Alterar</h2>
+              <h4>V么o</h4>
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                  <label for="input-codigo-voo">C贸digo</label>
+                  <input id="input-codigo-voo"
+                    type="text"
+                    class="form-control"
+                    placeholder="Ex: JG58"
+                    name="codigo"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                  <label for="input-voo-situacao">Situa莽茫o</label>
+                  <select id="input-voo-situacao"
+                      class="form-control"
+                      name="situacao"
+                      required>
+                      <option value="">Selecione...</option>
+                      <option value="Em espera">Em espera</option>
+                      <option value="Confirmado">Confirmado</option>
+                      <option value="Encerrado">Encerrado</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                  <label for="voo-cadastrar-datetimepicker">Data e Hora</label>
+                  <input id="voo-cadastrar-datetimepicker"
+                    type="text"
+                    class="form-control"
+                    name="datahora"
+                    placeholder="Formato: YYYY-MM-DD HH:mm:ss"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="col-md-3 col-sm-12">
+                <div class="form-group">
+                  <label for="input-voo-escalas">Escalas</label>
+                  <input id="input-voo-escalas"
+                    type="text"
+                    class="form-control"
+                    placeholder="Ex: 1 (quantidade)"
+                    name="escalas"
+                    required
+                  />
+                </div>
+              </div>
+            </div> <%-- /row --%>
+
+            <div class="row">
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="origem-aeroporto-list">Origem</label>
+                  <select id="origem-aeroporto-list" name="origemAeroportoId" class="form-control" required>
+                    <option value="">Selecione...</option>
+                    <option value="1">Curitiba - Afonso Pena</option>
+                    <option value="2">Natal - Augusto Severo</option>
+                    <option value="3">Macei贸 - Campo dos Palmares</option>
+                    <option value="4">Foz do Igua莽u-PR - Catarata</option>
+                    <option value="5">Belo Horizonte - Confins</option>
+                    <option value="6">S茫o Paulo - Congonhas</option>
+                    <option value="7">S茫o Paulo - Cumbica</option>
+                    <option value="8">Acre - Cruzeiro do Sul</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="col-md-6 col-sm-12">
+                <div class="form-group">
+                  <label for="destino-aeroporto-list">Destino</label>
+                  <select id="destino-aeroporto-list"
+                      name="destinoAeroportoId"
+                      class="form-control"
+                      required>
+                    <option value="">Selecione...</option>
+                    <option value="1">Curitiba - Afonso Pena</option>
+                    <option value="2">Natal - Augusto Severo</option>
+                    <option value="3">Macei贸 - Campo dos Palmares</option>
+                    <option value="4">Foz do Igua莽u-PR - Catarata</option>
+                    <option value="5">Belo Horizonte - Confins</option>
+                    <option value="6">S茫o Paulo - Congonhas</option>
+                    <option value="7">S茫o Paulo - Cumbica</option>
+                    <option value="8">Acre - Cruzeiro do Sul</option>
+                  </select>
+                </div>
+              </div>
+            </div> <%-- /row --%>
+
+            <div class="row">
+              <div class="col-md-3 col-sm-12">
+                  <div class="form-group">
+                    <label for="voo-valor">Valor</label>
+                    <input id="voo-valor"
+                        type="text"
+                        class="form-control"
+                        placeholder="Ex: R$ 90,00"
+                        name="valor"
+                        required
+                    />
                   </div>
-                </form> <!-- /.panel-body -->
-              </div> <!-- /.panel -->
-            </div> <!-- /.col-lg-12 -->
-          </div> <!-- /.row -->
-        </div> <!-- /#page-wrapper -->
+              </div>
+            </div> <%-- /row --%>
+          </div> <%-- /container --%>
+        </form>
+
+        <div class="container">
+          <h4>Aeronave</h4>
+          <jsp:include page="/aeronave/partials/consultar-codigo-table-dataonly.jsp" />
+          <jsp:include page="/aeronave/partials/consultar-table-dataonly.jsp" />
+        </div> <%-- /container --%>
+
+        <div class="row">
+          <div class="col-md-12 text-right">
+            <a href="${pageContext.request.contextPath}/home.jsp"
+              class="btn btn-default">
+              cancelar
+            </a>
+            <label for="submit-form" class="btn btn-primary">alterar</label>
+          </div>
+        </div> <%-- /row --%>
+      </section>
+
+    </div> <%-- /container --%>
+  </article>
+
+  <footer></footer>
 
 </body>
+
+<%-- JS --%>
+<jsp:include page="/template/common/js.jsp" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/helper/AeronaveConsultaHelper.js"></script>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/voo.js"></script>
+
 </html>

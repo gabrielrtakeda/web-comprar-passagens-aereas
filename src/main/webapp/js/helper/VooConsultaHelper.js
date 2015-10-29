@@ -5,39 +5,40 @@ var VooConsultaHelper = {
         console.log(response);
         if (response.length > 0) {
             var tableBody = $('#consultar-voo #consultar-result tbody').html('');
-            $.each(response, function(i, aeronave) {
+            $.each(response, function(i, voo) {
                 if (window.vooConsultaTableRowDataonlyPartial === null) {
                     $.ajax({
-                        url: window.BASE_PATH + '/voo/partials/consultar-table-row-dataonly.html',
+                        url: window.BASE_PATH + '/voo/partials/consultar-table-row-dataonly.jsp',
                         method: 'GET',
                         dataType: 'html',
                         success: function(partial) {
                             window.vooConsultaTableRowDataonlyPartial = partial;
                             tableBody.append(
-                                VooConsultaHelper.assignVariables(aeronave)
+                                VooConsultaHelper.assignVariables(voo)
                             );
                         },
                         error: AsynchronousRequestHandler.error
                     });
                 } else {
                     tableBody.append(
-                        VooConsultaHelper.assignVariables(aeronave)
+                        VooConsultaHelper.assignVariables(voo)
                     );
                 }
             });
         }
     },
 
-    assignVariables: function(aeronave) {
+    assignVariables: function(voo) {
         return window.vooConsultaTableRowDataonlyPartial
-            .replace(new RegExp('{{id}}', 'g'), aeronave.id)
-            .replace(new RegExp('{{codigo}}', 'g'), aeronave.codigo)
-            .replace(new RegExp('{{aeronaveNome}}', 'g'), aeronave.aeronaveNome)
-            .replace(new RegExp('{{escalas}}', 'g'), aeronave.escalas)
-            .replace(new RegExp('{{dataHora}}', 'g'), aeronave.dataHora)
-            .replace(new RegExp('{{assentosDisponiveis}}', 'g'), aeronave.assentosDisponiveis)
-            .replace(new RegExp('{{situacao}}', 'g'), aeronave.situacao)
-            .replace(new RegExp('{{valor}}', 'g'), currency(aeronave.valor));
+            .replace(new RegExp('{{id}}', 'g'), voo.id)
+            .replace(new RegExp('{{codigo}}', 'g'), voo.codigo)
+            .replace(new RegExp('{{aeronaveNome}}', 'g'), voo.aeronave.nome)
+            .replace(new RegExp('{{escalas}}', 'g'), voo.escalas)
+            .replace(new RegExp('{{dataHora}}', 'g'), voo.dataHora)
+            .replace(new RegExp('{{assentosDisponiveis}}', 'g'), voo.assentosDisponiveis)
+            .replace(new RegExp('{{situacao}}', 'g'), voo.situacao)
+            .replace(new RegExp('{{valor}}', 'g'), voo.valor)
+            .replace(new RegExp('{{valorText}}', 'g'), currency(voo.valor));
     },
 
     initDateTimePicker: function() {

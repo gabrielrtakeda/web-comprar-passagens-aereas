@@ -8,18 +8,31 @@
   data-tipo-passageiro="{{tipoPassageiro}}">
 
   <input type="hidden"
-    name="passageiro[][responsavel]"
+    name="passagens[][voo][id]"
+    value="{{vooId}}"
+  />
+  <input type="hidden"
+    name="passagens[][responsavel]"
     value="true"
   />
   <input type="hidden"
-    name="passageiro[][tipoPassageiro]"
+    name="passagens[][valorPassagem]"
+    value="{{valorPassagem}}"
+  />
+  <input type="hidden"
+    name="passagens[][tipoPassageiro]"
     value="{{tipoPassageiro}}"
   />
 
   <header>
     <div class="row">
       <div class="col-md-12">
-        <h3>Dados do passageiro <small>(Adulto - responsável pela compra)</small></h3>
+        <h3>
+          Dados do passageiro
+          <small>
+            (Adulto - responsável pela compra - {{valorPassagemText}})
+          </small>
+        </h3>
       </div>
     </div>
   </header>
@@ -29,12 +42,12 @@
             <label for="input-nome-aeronave">Forma de tratamento</label>
               <select id="input-nome-aeronave"
                 class="form-control select-tipo-passagem"
-                name="passageiro[][formaTratamento]"
+                name="passagens[][formaTratamento]"
                 required>
                 <option value="">Selecione...</option>
-                <option value="Em espera">Sr.</option>
-                <option value="Confirmado">Sra.</option>
-                <option value="Encerrado">Srta.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="Sra.">Sra.</option>
+                <option value="Srta.">Srta.</option>
               </select>
         </div>
     </div>
@@ -46,7 +59,7 @@
             type="text"
             class="form-control"
             placeholder="Ex: Gabriel"
-            name="passageiro[][nome]"
+            name="passagens[][nome]"
             required
           />
         </div>
@@ -59,7 +72,7 @@
             type="text"
             class="form-control"
             placeholder="Ex: Ramos Takeda"
-            name="passageiro[][sobrenome]"
+            name="passagens[][sobrenome]"
             required
           />
         </div>
@@ -70,7 +83,7 @@
           <label>Data de nascimento</label>
           <input type="text"
             class="form-control voo-cadastrar-passageiro-nascimento-datetimepicker"
-            name="passageiro[][dataNascimento]"
+            name="passagens[][dataNascimento]"
             placeholder="Formato: YYYY-MM-DD"
             required
           />
@@ -84,7 +97,7 @@
           <label>Email</label>
           <input type="email"
             class="form-control passageiro-email"
-            name="passageiro[][email]"
+            name="passagens[][email]"
             placeholder="Ex: nome@domain.com.br"
             required
           />
@@ -96,7 +109,7 @@
           <label>DDD</label>
           <input type="text"
             class="form-control passageiro-ddd"
-            name="passageiro[][ddd]"
+            name="passagens[][ddd]"
             placeholder="Ex: 11"
             pattern="[0-9]{2}"
             required
@@ -109,7 +122,7 @@
           <label>Telefone/Celular</label>
           <input type="text"
             class="form-control passageiro-telefone"
-            name="passageiro[][telefone]"
+            name="passagens[][telefone]"
             placeholder="Ex: 97777-7777"
             pattern="[0-9]{4}-[0-9]{4,5}"
             required

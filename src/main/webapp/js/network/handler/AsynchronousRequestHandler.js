@@ -1,7 +1,8 @@
 var AsynchronousRequestHandler = {
-    submitForm: function(self, successCallback, dataType) {
+    post: function(self, successCallback, dataType) {
         dataType = dataType || 'json';
 
+        console.log($(self).serialize());
         $.ajax({
             url: $(self).attr('action'),
             method: $(self).attr('method'),
@@ -12,28 +13,59 @@ var AsynchronousRequestHandler = {
         });
     },
 
-    put: function(self, dataJSON, successCallback, dataType) {
+    put: function(self, dataJSON, successCallback, contentType, dataType) {
+        contentType = contentType || 'text/plain';
         dataType = dataType || 'json';
 
+        console.log(JSON.stringify(dataJSON));
         $.ajax({
             url: $(self).attr('action'),
             method: 'PUT',
             data: JSON.stringify(dataJSON),
+            dataType: dataType,
+            contentType: contentType,
+            success: successCallback,
+            error: AsynchronousRequestHandler.error
+        });
+    },
+
+    get: function(self, pathParams, successCallback, url, dataType) {
+        dataType = dataType || 'json';
+
+        console.log('method: GET');
+        console.log(url + pathParams);
+
+        $.ajax({
+            url: BASE_PATH + url + pathParams,
+            method: 'GET',
             dataType: dataType,
             success: successCallback,
             error: AsynchronousRequestHandler.error
         });
     },
 
-    get: function(self, pathParams, successCallback, dataType) {
+    delete: function(pathParams, successCallback, url, dataType) {
         dataType = dataType || 'json';
 
-        console.log($(self).attr('action') + pathParams);
+        console.log('method: DELETE');
+        console.log(url + pathParams);
 
         $.ajax({
-            url: $(self).attr('action') + pathParams,
-            method: $(self).attr('method'),
+            url: BASE_PATH + url + pathParams,
+            method: 'DELETE',
             dataType: dataType,
+            success: successCallback,
+            error: AsynchronousRequestHandler.error
+        });
+    },
+
+    partial: function(url, successCallback) {
+        console.log('partial(url, successCallback)');
+        console.log(url);
+        $.ajax({
+            url: BASE_PATH + url,
+            method: 'GET',
+            dataType: 'html',
             success: successCallback,
             error: AsynchronousRequestHandler.error
         });

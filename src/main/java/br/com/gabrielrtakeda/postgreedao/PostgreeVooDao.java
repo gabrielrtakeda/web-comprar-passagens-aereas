@@ -9,7 +9,6 @@ import java.util.List;
 
 import br.com.gabrielrtakeda.to.VooTO;
 import br.com.gabrielrtakeda.dao.VooDAOInterface;
-import br.com.gabrielrtakeda.model.Voo;
 import br.com.gabrielrtakeda.postgreedao.PostgreeAcessoBD;
 import br.com.gabrielrtakeda.dao.exception.NotFoundException;
 
@@ -28,7 +27,7 @@ public class PostgreeVooDao implements VooDAOInterface {
         }
     }
 
-
+    @Override
     public VooTO insert(
         int aeronaveId,
         String codigo,
@@ -43,30 +42,31 @@ public class PostgreeVooDao implements VooDAOInterface {
         return null;
     }
 
-    public VooTO update(
-        String id,
-        String codigo,
-        int origem,
-        int destino,
-        String escalas,
-        String dataHora,
-        int assentosDisponiveis,
-        String situacao,
-        double valor
-    ) throws NotFoundException, SQLException {
+    @Override
+    public VooTO update(VooTO to)
+    throws NotFoundException, SQLException {
         return null;
     }
 
+    @Override
     public ArrayList<VooTO> getAll()
     throws NotFoundException, SQLException {
         return null;
     }
 
-    public VooTO getById(int id)
+    @Override
+    public VooTO get(int id)
     throws NotFoundException, SQLException {
         return null;
     }
 
+    @Override
+    public ArrayList<VooTO> getListByCodigo(String codigo)
+    throws NotFoundException, SQLException {
+        return null;
+    }
+
+    @Override
     public ArrayList<VooTO> getListDisponivel(
         int quantidadePassageiros,
         int origemAeroportoId,
@@ -76,7 +76,18 @@ public class PostgreeVooDao implements VooDAOInterface {
         return null;
     }
 
-    public VooTO delete(String id)
+    @Override
+    public ArrayList<VooTO> getListDisponivel(
+        int quantidadePassageiros,
+        int origemAeroportoId,
+        int destinoAeroportoId,
+        double valor
+    ) throws NotFoundException, SQLException {
+        return null;
+    }
+
+    @Override
+    public VooTO delete(VooTO to)
     throws NotFoundException, SQLException {
         return null;
     }

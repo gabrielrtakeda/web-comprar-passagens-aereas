@@ -1,97 +1,114 @@
+<%@ page
+  language="java"
+  contentType="text/html; charset=UTF-8"
+  pageEncoding="UTF-8"
+%>
 <!DOCTYPE html>
+<html>
 <head>
-  <title>Checkin</title>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> <BODY BACKGROUND="Boeing.jpg">
+  <title>Check-in</title>
+
+  <%-- CSS --%>
+  <jsp:include page="/template/common/css.jsp" />
 </head>
+
 <body>
+  <jsp:include page="/template/common/background.jsp" />
 
-  <div id="page-wrapper">
-
-
-    <div class="row">
-      <div class="col-lg-12">
-        <div class="panel panel-default">
-          <form method ="post" action = "Checkin">
-            <div class="panel-body">
-              <div class="row">
-                <div class="col-lg-6">
-                  <form role="form">
-                    <div class="form-group">
-
-                      <p class="bg-danger"> Tipo de Passagem </p>
-
-                      <input type="radio" name = "normal" > Normal </label >
-                      <input type="radio" name = "reserva" > Reserva </label >
-                      <hr>
-                      <tr> <td> <label for="numeroPassagem ">Numero da Passagem:</label>
-                      </td><td> <input class="form-control" name="txtnumeroPassagem" class="txt"/> </td> </tr>
-
-
-
-                      <tr> <td><label>Local</label>
-                      </td> <td><select class="form-control" name = "Local" id = "local_checkin">
-
-                    </select> </td> </tr>
-                    <br />
-                    <p class="bg-danger"> Tipo de Passageiro </p>
-
-                    <hr>
-
-                    <tr> <td><label>Nome</label>
-                    </td> <td><input class="form-control" name="txtnomePassageiro" class="txt"/> </td> </tr>
-
-                    <tr> <td><label>Sobrenome</label>
-                    </td> <td><input class="form-control" name="txtsobrenomePassageiro" class="txt"/> </td> </tr>
-
-
-                  </select> </td> </tr>
-                  <tr> <td> <label for="Origem">Tipo de Passageiro:</label>
-                  </td> <td> </td> <td><select class="form-control" name = "Tipo de Passageiro" id = "tipo_passageiro">
-
-                  <option value = "Bebe">Bebe</option>
-                  <option value = "Crianca">Criança</option>
-                  <option value = "Adulto" >Adulto</option>
-                </select> </td> </tr>
-
-
-                <tr> <td><label>Data de Nascimento</label>
-                </td> <td><input class="form-control" name="txtdataNascimento" class="txt"/> </td> </tr>
-
-              </select> </td> </tr>
-              <tr> <td> <label for="Origem">Forma de Tratamento:</label>
-              </td> <td> </td> <td><select class="form-control" name = "Forma de Tratamento" id = "forma_tratamento   ">
-
-              <option value = "Senhor">Senhor</option>
-              <option value = "Senhora">Senhora</option>
-              <option value = "Senhorita">Senhorita</option>
-            </select> </td> </tr>
-            <hr>
-
-            <div>
-
-
-            </div>
-            <div class="footer">
-              <button type="button" type="submit" class="btn btn-default">Salvar</button>
-              <button type="button" class="btn btn-default" data-dismiss="modal">Sair</button>
-              <button type="button" type="submit" class="btn btn-default" data-dismiss="modal">Alterar</button>
-
-
-
-            </div>
-
-          </div>
-
-        </div>
+  <header data-active="passagem">
+    <div class="jumbotron">
+      <div class="container">
+        <h1>Check-in</h1>
+        <small id="clock"></small>
       </div>
-
     </div>
 
+    <jsp:include page="/template/common/header.jsp" />
+  </header>
 
+  <article>
+    <section class="alerts">
+      <jsp:include page="/alert/error.jsp" />
+      <jsp:include page="/alert/success.jsp" />
+    </section>
 
-  </body>
-  </html>
+    <section class="container consulta-passagem">
+      <form id="consultar-passagem"
+        method="GET"
+        class="form-inline">
+
+        <div class="container">
+          <div class="row">
+            <h2>Passagem</h2>
+            <div class="col-md-4 col-sm-12">
+                <div class="form-group">
+                  <label for="input-nome-aeronave" class="sr-only">Bilhete</label>
+                  <input id="input-codigo-aeronave"
+                    type="text"
+                    class="form-control"
+                    placeholder="Bilhete"
+                    name="bilhete"
+                    required
+                    autofocus
+                  />
+                  <button type="submit" class="btn btn-primary">consultar</button>
+                </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </section>
+
+    <section class="dados-passagem container">
+      <h3>Dados da passagem</h3>
+      <div class="content"></div>
+    </section>
+
+    <section class="alocar-assento container">
+      <h3>Alocar assento</h3>
+
+      <form id="transferir-passagem"
+        action="${pageContext.request.contextPath}/api/passagem"
+        method="POST">
+        <input type="hidden" name="id" required />
+        <input type="hidden" name="vooId" required />
+
+        <div class="row">
+          <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                <label for="input-nome-aeronave">Fileira</label>
+                <select class="form-control" name="fileira">
+                  <option value="">Selecione...</option>
+                </select>
+              </div>
+          </div>
+
+          <div class="col-md-4 col-sm-12">
+              <div class="form-group">
+                <label for="input-nome-aeronave">Assento</label>
+                <select class="form-control" name="assento">
+                  <option value="">Selecione...</option>
+                </select>
+              </div>
+          </div>
+        </div>
+
+        <div class="row action-buttons">
+          <div class="col-md-12 text-right">
+            <button type="submit" class="btn btn-primary">transferir</button>
+          </div>
+        </div>
+      </form>
+    </section>
+
+  </article>
+  <footer></footer>
+</body>
+
+<%-- JS --%>
+<jsp:include page="/template/common/js.jsp" />
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/passagem/checkin.js"></script>
+
+</html>

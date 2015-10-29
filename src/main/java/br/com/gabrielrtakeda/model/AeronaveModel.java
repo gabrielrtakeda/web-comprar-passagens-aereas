@@ -75,38 +75,10 @@ public class AeronaveModel {
         return to;
     }
 
-    // public ArrayList<Aeronave> getAeronave() {
-    //     AeronaveTO to = new AeronaveTO();
-
-    //     to.aeronave = null;
-    //     try {
-    //         to.aeronave = dao.getAeronave();
-    //     }
-    //     catch(Exception ex) {}
-
-    //     return to.aeronave;
-    // }
-
-    // public void delAeronave(String id) {
-    //     try{
-    //         dao.delAeronave(id);
-    //     }
-    //     catch(Exception ex) {
-    //         ex.printStackTrace();
-    //     }
-    // }
-
-    // public void updAeronave(
-    //     String id,
-    //     String nome,
-    //     String codigo,
-    //     int quantidadeAssentos
-    // ) {
-    //     try{
-    //         dao.update(id,codigo, nome, quantidadeAssentos);
-    //     }
-    //     catch(Exception ex) {
-    //         System.out.println("Erro ao atualizar aeronave");
-    //     }
-    // }
+    public AeronaveTO delete(int id) {
+        AeronaveTO to = new AeronaveTO();
+        try { to = dao.delete(id); }
+        catch (Exception e) { e.printStackTrace(); }
+        return to;
+    }
 }

@@ -2,6 +2,6 @@
     margin-top: 20px;
 }
 
-.table-responsive tr {
+.table-responsive tbody tr {
     cursor: pointer;
 }

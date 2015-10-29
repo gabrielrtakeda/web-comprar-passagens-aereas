@@ -10,22 +10,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Cadastrar Vôo</title>
 
-  <%-- General --%>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/node_modules/bootstrap/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/bower_components/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css" />
-
-  <%-- Custom --%>
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/consulta-table.css" />
-  <link rel="stylesheet" href="${pageContext.request.contextPath}/css/voo.css" />
+  <%-- CSS --%>
+  <jsp:include page="/template/common/css.jsp" />
+  <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/css/voo.css" />
 </head>
-<body>
 
-  <header>
+<body>
+  <jsp:include page="/template/common/background.jsp" />
+
+  <header data-active="voo">
     <div class="jumbotron">
       <div class="container">
         <h1>Cadastrar Vôo</h1>
+        <small id="clock"></small>
       </div>
     </div>
+
+    <jsp:include page="/template/common/header.jsp" />
   </header>
 
   <article>
@@ -38,13 +39,12 @@
 
       <%-- Aeronave --%>
       <form id="consultar-aeronave"
-        action="${pageContext.request.contextPath}/api/aeronave/list/"
         method="GET"
         class="form-inline form-aeronave">
 
         <div class="row">
           <jsp:include page="/aeronave/partials/consultar-form-content.jsp" />
-          <jsp:include page="/aeronave/partials/consultar-table.jsp" />
+          <jsp:include page="/aeronave/partials/consultar-table-dataonly.jsp" />
         </div>
       </form>
 
@@ -65,19 +65,9 @@
 
 </body>
 
-<%-- General --%>
-<script type="text/javascript" src="${pageContext.request.contextPath}/node_modules/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/node_modules/jquery-mask-number/jquery.masknumber.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/bower_components/moment/min/moment.min.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/bower_components/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
-
-<%-- Custom --%>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/config.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/utils/Serialize.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/network/handler/AsynchronousRequestHandler.js"></script>
+<%-- JS --%>
+<jsp:include page="/template/common/js.jsp" />
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/helper/AeronaveConsultaHelper.js"></script>
-<script type="text/javascript" src="${pageContext.request.contextPath}/js/helper/RowDataExtractHelper.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/voo.js"></script>
 
 </html>

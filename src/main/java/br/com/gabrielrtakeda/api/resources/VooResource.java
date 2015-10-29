@@ -3,6 +3,7 @@ package br.com.gabrielrtakeda.api.resources;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -21,7 +22,7 @@ import br.com.gabrielrtakeda.to.VooTO;
 public class VooResource {
 
     @GET
-    @Path("/list/{quantidadePassageiros}/{origemAeroportoId}/{destinoAeroportoId}/{dataHora: (.+)?}")
+    @Path("/list/{quantidadePassageiros}/{origemAeroportoId}/{destinoAeroportoId}/{dataHora: (.+)}/")
     @Produces("application/json")
     public String getListDisponivel(
         @PathParam("quantidadePassageiros") int quantidadePassageiros,
@@ -42,6 +43,52 @@ public class VooResource {
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        return new Gson().toJson(list);
+    }
+
+    @GET
+    @Path("/list-valor/{quantidadePassageiros}/{origemAeroportoId}/{destinoAeroportoId}/{valor}")
+    @Produces("application/json")
+    public String getListDisponivel(
+        @PathParam("quantidadePassageiros") int quantidadePassageiros,
+        @PathParam("origemAeroportoId") int origemAeroportoId,
+        @PathParam("destinoAeroportoId") int destinoAeroportoId,
+        @PathParam("valor") double valor
+    ) {
+        ArrayList<VooTO> list = new ArrayList<VooTO>();
+
+        try {
+            list = new VooModel().getListDisponivel(
+                quantidadePassageiros,
+                origemAeroportoId,
+                destinoAeroportoId,
+                valor
+            );
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(new Gson().toJson(list));
+
+        return new Gson().toJson(list);
+    }
+
+    @GET
+    @Path("/list/{codigo}")
+    @Produces("application/json")
+    public String getListDisponivel(@PathParam("codigo") String codigo) {
+        ArrayList<VooTO> list = new ArrayList<VooTO>();
+
+        try {
+            list = new VooModel().getListByCodigo(codigo);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println(new Gson().toJson(list));
 
         return new Gson().toJson(list);
     }
@@ -88,35 +135,51 @@ public class VooResource {
         return response;
     }
 
-    // @POST
-    // @Produces("application/json")
-    // @Consumes("application/x-www-form-urlencoded")
-    // public String post(
-    //     @FormParam("id") String id,
-    //     @FormParam("codigo") String codigo,
-    //     @FormParam("nome") String nome,
-    //     @FormParam("quantidadePassageiros") String quantidadePassageiros
-    // ) {
-    //     String response = "{}";
+    @POST
+    @Produces("application/json")
+    @Consumes("application/x-www-form-urlencoded")
+    public String post(
+        @FormParam("id") int id,
+        @FormParam("aeronaveId") int aeronaveId,
+        @FormParam("codigo") String codigo,
+        @FormParam("situacao") String situacao,
+        @FormParam("datahora") String datahora,
+        @FormParam("escalas") String escalas,
+        @FormParam("origemAeroportoId") int origemAeroportoId,
+        @FormParam("destinoAeroportoId") int destinoAeroportoId,
+        @FormParam("valor") double valor
+    ) {
+        String response = "{}";
+        VooTO to = new VooTO();
 
-    //     System.out.println(id);
-    //     System.out.println(codigo);
-    //     System.out.println(nome);
-    //     System.out.println(quantidadePassageiros);
+        try {
+            to = new VooModel().update(
+                id,
+                aeronaveId,
+                codigo,
+                situacao,
+                datahora,
+                escalas,
+                origemAeroportoId,
+                destinoAeroportoId,
+                valor
+            );
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
 
-    //     VooModel model = new VooModel();
-    //     VooTO to = model.update(
-    //         Integer.parseInt(id),
-    //         codigo,
-    //         nome,
-    //         Integer.parseInt(quantidadePassageiros)
-    //     );
+        return new Gson().toJson(to);
+    }
 
-    //     if (to.getStatusOperation())
-    //         response = "{\"status\": true, \"method\": \"POST\"}";
-    //     else
-    //         response = "{\"status\": false, \"method\": \"POST\"}";
+    @DELETE
+    @Path("/{id}")
+    @Produces("application/json")
+    public String delete(@PathParam("id") int id) {
+        VooTO to = new VooTO();
+        try { to = new VooModel().delete(id); }
+        catch (Exception e) { e.printStackTrace(); }
 
-    //     return response;
-    // }
+        return new Gson().toJson(to);
+    }
 }

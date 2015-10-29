@@ -3,6 +3,7 @@ package br.com.gabrielrtakeda.api.resources;
 import javax.ws.rs.GET;
 import javax.ws.rs.PUT;
 import javax.ws.rs.POST;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.Consumes;
@@ -75,13 +76,15 @@ public class AeronaveResource {
             quantidadeFileiras,
             quantidadeAssentosFileira
         );
+        return new Gson().toJson(to);
+    }
 
-        String response = "{}";
-        if (to.getStatusOperation())
-            response = "{\"status\": true, \"method\": \"POST\"}";
-        else
-            response = "{\"status\": false, \"method\": \"POST\"}";
-
-        return response;
+    @DELETE
+    @Path("/{id}")
+    @Produces("application/json")
+    public String delete(@PathParam("id") int id) {
+        AeronaveModel model = new AeronaveModel();
+        AeronaveTO to = model.delete(id);
+        return new Gson().toJson(to);
     }
 }

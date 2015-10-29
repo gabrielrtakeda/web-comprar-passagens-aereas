@@ -3,11 +3,11 @@ window.consultarTableRowDataonlyPartial = null;
 var AeronaveConsultaHelper = {
     appendTableRowsDataonly: function(response) {
         if (response.length > 0) {
-            var tableBody = $('#consultar-result tbody').html('');
+            var tableBody = $('#aeronave-consultar-table-dataonly tbody').html('');
             $.each(response, function(i, aeronave) {
                 if (window.consultarTableRowDataonlyPartial === null) {
                     $.ajax({
-                        url: window.BASE_PATH + '/aeronave/partials/consultar-table-row-dataonly.html',
+                        url: window.BASE_PATH + '/aeronave/partials/consultar-table-row-dataonly.jsp',
                         method: 'GET',
                         dataType: 'html',
                         success: function(partial) {
@@ -15,6 +15,7 @@ var AeronaveConsultaHelper = {
                             tableBody.append(
                                 AeronaveConsultaHelper.assignVariables(aeronave)
                             );
+                            $(window).trigger('after-aeronave-list-codigo');
                         },
                         error: AsynchronousRequestHandler.error
                     });
@@ -22,6 +23,7 @@ var AeronaveConsultaHelper = {
                     tableBody.append(
                         AeronaveConsultaHelper.assignVariables(aeronave)
                     );
+                    $(window).trigger('after-aeronave-list-codigo');
                 }
             });
         }
@@ -32,6 +34,10 @@ var AeronaveConsultaHelper = {
             .replace(new RegExp('{{id}}', 'g'), aeronave.id)
             .replace(new RegExp('{{codigo}}', 'g'), aeronave.codigo)
             .replace(new RegExp('{{nome}}', 'g'), aeronave.nome)
+            .replace(new RegExp('{{aeronaveQuantidadeFileiras}}', 'g'),
+                aeronave.quantidadeFileiras)
+            .replace(new RegExp('{{aeronaveQuantidadeAssentosFileira}}', 'g'),
+                aeronave.quantidadeAssentosFileira)
             .replace(
                 new RegExp('{{aeronaveQuantidadeTotalPassageiros}}', 'g'),
                 aeronave.quantidadeFileiras *

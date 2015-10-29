@@ -32,7 +32,7 @@ public interface AeronaveDAOInterface {
     public abstract ArrayList<AeronaveTO> getByCodigo(String codigo)
     throws NotFoundException, SQLException;
 
-    public abstract AeronaveTO delete(String id)
+    public abstract AeronaveTO delete(int id)
     throws NotFoundException, SQLException;
 }
 

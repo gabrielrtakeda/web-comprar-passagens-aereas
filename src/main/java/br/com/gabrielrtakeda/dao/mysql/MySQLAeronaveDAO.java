@@ -5,8 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import br.com.gabrielrtakeda.model.Aeronave;
-import br.com.gabrielrtakeda.model.Voo;
 import br.com.gabrielrtakeda.dao.AeronaveDAOInterface;
 import br.com.gabrielrtakeda.to.AeronaveTO;
 import br.com.gabrielrtakeda.dao.mysql.MySQLConnection;
@@ -123,10 +121,15 @@ public class MySQLAeronaveDAO implements AeronaveDAOInterface {
         try {
             pst = conn.prepareStatement(query);
             pst.execute();
-            to.setStatusOperation(true);
+            to.setStatusOperation(true)
+                .setSuccessMessage("Aeronave alterada com sucesso!");
         }
         catch (SQLException sqe) {
-            to.setStatusOperation(false);
+            to.setStatusOperation(false)
+                .setErrorMessage(
+                      "Ops! Ocorreu um erro ao tentar atualizar a aeronave."
+                    + " Aguarde um momento e tente novamente."
+                );
             sqe.printStackTrace();
         }
         finally {
@@ -210,6 +213,8 @@ public class MySQLAeronaveDAO implements AeronaveDAOInterface {
     throws NotFoundException, SQLException {
 
         AeronaveTO to = new AeronaveTO();
+        System.out.println("AeronaveDAO.get()");
+        System.out.println(id);
 
         String query = String.format(
               " SELECT"
@@ -232,12 +237,12 @@ public class MySQLAeronaveDAO implements AeronaveDAOInterface {
             pst.execute();
 
             while(rs.next()) {
-                to.setStatusOperation(true);
                 to.setId(rs.getInt(1))
                     .setCodigo(rs.getString(2))
                     .setNome(rs.getString(3))
                     .setQuantidadeFileiras(rs.getInt(4))
                     .setQuantidadeAssentosFileira(rs.getInt(5));
+                to.setStatusOperation(true);
             }
         }
         catch (SQLException sqe) {
@@ -326,135 +331,38 @@ public class MySQLAeronaveDAO implements AeronaveDAOInterface {
     }
 
     @Override
-    public AeronaveTO delete(String id)
+    public AeronaveTO delete(int id)
     throws NotFoundException, SQLException {
-        // TODO Auto-generated method stub
-        return null;
+
+        AeronaveTO to = new AeronaveTO();
+        String query = String.format("DELETE FROM AERONAVE WHERE id = %d", id);
+        System.out.println(query);
+
+        try {
+            pst = conn.prepareStatement(query);
+            pst.execute();
+            to.setStatusOperation(true);
+        }
+        catch (SQLException sqe) {
+            to.setStatusOperation(false);
+            sqe.printStackTrace();
+        }
+        finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException sqe) {
+                    sqe.printStackTrace();
+                }
+            }
+            if (pst != null) {
+                try {
+                    pst.close();
+                } catch (SQLException sqe) {
+                    sqe.printStackTrace();
+                }
+            }
+        }
+        return to;
     }
-
-    // @Override
-    // public Aeronave update(
-    //     String id,
-    //     String codigo,
-    //     String nome,
-    //     int quantidadeAssentos
-    // ) throws NotFoundException, SQLException, NotFoundException {
-
-    //     String query = "
-    //         UPDATE AERONAVE SET
-    //             CODIGO='" + codigo + "',
-    //             NOME='" + nome + "',
-    //             QUANT_PASSAGEIROS=" + quantidadeAssentos + "
-    //         WHERE aeronave_id = " + id + ";";
-    //     AeronaveTO to = new AeronaveTO();
-
-    //     try {
-    //         pst = conn.prepareStatement(query);
-    //         pst.execute();
-    //     }
-    //     catch (SQLException sqe) {
-    //         to.setStatusOperacao(1);//falha
-    //         sqe.printStackTrace();
-    //     }
-    //     finally {
-    //         if (rs != null) {
-    //             try {
-    //                 rs.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //         if (pst != null) {
-    //             try {
-    //                 pst.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
-
-    // @Override
-    // public ArrayList<Aeronave> getAeronave()
-    // throws NotFoundException, SQLException, NotFoundException {
-
-    //     AeronaveTO to = new AeronaveTO();
-    //     ArrayList<Aeronave>lista = new ArrayList<>();
-    //     try{
-
-    //         String query = "Select * from aeronave ";
-    //         pst = conn.prepareStatement(query);
-    //         rs = pst.executeQuery();
-    //         while(rs.next()) {
-    //             int id = rs.getInt(1);
-    //             String codigos = rs.getString(2);
-    //             String nomes = rs.getString(3);
-    //             int qa = rs.getInt(4);
-    //             Aeronave aero = new Aeronave(id, codigos, nomes, qa);
-    //             lista.add(aero);
-    //         }
-    //     }
-    //     catch (SQLException sqe) {
-    //         to.setStatusOperacao(1);//falha
-    //         sqe.printStackTrace();
-    //     }
-    //     finally {
-    //         if (rs != null) {
-    //             try {
-    //                 rs.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //         if (pst != null) {
-    //             try {
-    //                 pst.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //         to.aeronave = lista;
-    //         return to.aeronave;
-    //     }
-    // }
-
-    // @Override
-    // public Aeronave getAeronaveById(int id)
-    // throws NotFoundException, SQLException, NotFoundException {
-    //     return null;
-    // }
-
-    // @Override
-    // public Aeronave delAeronave(String id)
-    // throws NotFoundException, SQLException, NotFoundException {
-    //     String query = "delete from aeronave where aeronave_id = "+ id + ";";
-
-    //     AeronaveTO to = new AeronaveTO();
-    //     try{
-    //         pst = conn.prepareStatement(query);
-    //         pst.execute();
-    //     }
-    //     catch (SQLException sqe) {
-    //         to.setStatusOperacao(1);
-    //         sqe.printStackTrace();
-    //     }
-    //     finally {
-    //         if (rs != null) {
-    //             try {
-    //                 rs.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //         if (pst != null) {
-    //             try {
-    //                 pst.close();
-    //             } catch (SQLException sqe) {
-    //                 sqe.printStackTrace();
-    //             }
-    //         }
-    //     }
-    //     return null;
-    // }
 }

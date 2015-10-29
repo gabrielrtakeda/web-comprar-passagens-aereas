@@ -8,18 +8,31 @@
   data-tipo-passageiro="{{tipoPassageiro}}">
 
   <input type="hidden"
-    name="passageiro[{{index}}][responsavel]"
+    name="passagens[][voo][id]"
+    value="{{vooId}}"
+  />
+  <input type="hidden"
+    name="passagens[][responsavel]"
     value="false"
   />
   <input type="hidden"
-    name="passageiro[{{index}}][tipoPassageiro]"
+    name="passagens[][valorPassagem]"
+    value="{{valorPassagem}}"
+  />
+  <input type="hidden"
+    name="passagens[][tipoPassageiro]"
     value="{{tipoPassageiro}}"
   />
 
   <header>
     <div class="row">
       <div class="col-md-9 col-sm-9 col-xs-9">
-        <h3>Dados do passageiro <small>({{tipoPassageiro}})</small></h3>
+        <h3>
+          Dados do passageiro
+          <small>
+            ({{tipoPassageiro}} - {{valorPassagemText}})
+          </small>
+        </h3>
       </div>
       <div class="col-md-3 col-sm-3 col-xs-3 text-right">
         <a class="btn btn-danger btn-sm remover-passageiro" title="Remover">
@@ -34,12 +47,12 @@
             <label for="input-nome-aeronave">Forma de tratamento</label>
               <select id="input-nome-aeronave"
                 class="form-control select-tipo-passagem"
-                name="passageiro[{{index}}][formaTratamento]"
+                name="passagens[][formaTratamento]"
                 required>
                 <option value="">Selecione...</option>
-                <option value="Em espera">Sr.</option>
-                <option value="Confirmado">Sra.</option>
-                <option value="Encerrado">Srta.</option>
+                <option value="Sr.">Sr.</option>
+                <option value="Sra.">Sra.</option>
+                <option value="Srta.">Srta.</option>
               </select>
         </div>
     </div>
@@ -51,7 +64,7 @@
             type="text"
             class="form-control"
             placeholder="Ex: Gabriel"
-            name="passageiro[{{index}}][nome]"
+            name="passagens[][nome]"
             required
           />
         </div>
@@ -64,7 +77,7 @@
             type="text"
             class="form-control"
             placeholder="Ex: Ramos Takeda"
-            name="passageiro[{{index}}][sobrenome]"
+            name="passagens[][sobrenome]"
             required
           />
         </div>
@@ -75,7 +88,7 @@
           <label>Data de nascimento</label>
           <input type="text"
             class="form-control voo-cadastrar-passageiro-nascimento-datetimepicker"
-            name="passageiro[{{index}}][dataNascimento]"
+            name="passagens[][dataNascimento]"
             placeholder="Formato: YYYY-MM-DD"
             required
           />

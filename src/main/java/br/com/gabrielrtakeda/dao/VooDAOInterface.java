@@ -21,22 +21,16 @@ public interface VooDAOInterface {
         double valor
     ) throws NotFoundException, SQLException;
 
-    public abstract VooTO update(
-        String id,
-        String codigo,
-        int origem,
-        int destino,
-        String escalas,
-        String dataHora,
-        int assentosDisponiveis,
-        String situacao,
-        double valor
-    ) throws NotFoundException, SQLException;
+    public abstract VooTO update(VooTO to)
+    throws NotFoundException, SQLException;
 
     public abstract ArrayList<VooTO> getAll()
     throws NotFoundException, SQLException;
 
-    public abstract VooTO getById(int id)
+    public abstract VooTO get(int id)
+    throws NotFoundException, SQLException;
+
+    public abstract ArrayList<VooTO> getListByCodigo(String codigo)
     throws NotFoundException, SQLException;
 
     public abstract ArrayList<VooTO> getListDisponivel(
@@ -46,6 +40,13 @@ public interface VooDAOInterface {
         String dataHora
     ) throws NotFoundException, SQLException;
 
-    public abstract VooTO delete(String id)
+    public abstract ArrayList<VooTO> getListDisponivel(
+        int quantidadePassageiros,
+        int origemAeroportoId,
+        int destinoAeroportoId,
+        double valor
+    ) throws NotFoundException, SQLException;
+
+    public abstract VooTO delete(VooTO to)
     throws NotFoundException, SQLException;
 }

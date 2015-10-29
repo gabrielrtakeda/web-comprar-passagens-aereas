@@ -45,11 +45,74 @@ INSERT INTO LOGIN(usuario,senha,perfil) VALUES
 DROP TABLE IF EXISTS Projeto.PASSAGEM;
 CREATE TABLE Projeto.PASSAGEM(
 id INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
+voo_id INT(11) NOT NULL,
 passageiro_responsavel_id INT(11) NOT NULL,
 passageiro_id INT(11) NOT NULL,
-bilhete VARCHAR(20) NOT NULL, -- MD5 gerado pelo Backend
+bilhete VARCHAR(10), -- MD5 gerado pelo Backend
 valor DOUBLE NOT NULL -- Valor do Vôo c/ taxas e ajustes embutidos
 )ENGINE = InnoDB;
+
+INSERT INTO PASSAGEM (
+	voo_id,
+    passageiro_responsavel_id,
+    passageiro_id,
+    bilhete,
+    valor
+) VALUES (1, 1, 1, '', 300.90);
+
+SELECT
+	p.id,
+    por.forma_tratamento,
+    por.nome,
+    por.sobrenome,
+    por.data_nascimento,
+    po.forma_tratamento,
+    po.nome,
+    po.sobrenome,
+    po.data_nascimento,
+    p.bilhete,
+    p.valor as valor_passagem,
+    v.codigo,
+    oa.nome,
+    da.nome,
+    v.escalas,
+    v.datahora,
+    v.assentos_disponiveis,
+    v.situacao
+FROM Projeto.PASSAGEM as p
+LEFT JOIN Projeto.VOO as v ON p.voo_id = v.id
+LEFT JOIN Projeto.PASSAGEIRO as por ON p.passageiro_responsavel_id = por.id
+LEFT JOIN Projeto.PASSAGEIRO as po ON p.passageiro_id = po.id
+LEFT JOIN Projeto.AEROPORTO as oa ON v.origem_aeroporto_id = oa.id
+LEFT JOIN Projeto.AEROPORTO as da ON v.destino_aeroporto_id = da.id;
+
+SELECT
+	pm.id,
+	pm.bilhete,
+    oa.nome as origem_aeroporto_nome,
+    da.nome as destino_aeroporto_nome,
+    por.forma_tratamento,
+    por.nome,
+    por.sobrenome,
+    po.tipo,
+    po.forma_tratamento,
+    po.nome,
+    po.sobrenome,
+    v.datahora,
+    v.assentos_disponiveis,
+    v.situacao,
+    pm.valor
+FROM
+	Projeto.PASSAGEM as pm
+LEFT JOIN Projeto.VOO as v ON pm.voo_id = v.id
+LEFT JOIN Projeto.AEROPORTO as oa ON v.origem_aeroporto_id = oa.id
+LEFT JOIN Projeto.AEROPORTO as da ON v.destino_aeroporto_id = da.id
+LEFT JOIN Projeto.PASSAGEIRO as por ON pm.passageiro_responsavel_id = por.id
+LEFT JOIN Projeto.PASSAGEIRO as po ON pm.passageiro_id = po.id
+WHERE
+	pm.bilhete = '9aa65385a';
+
+SELECT * FROM Projeto.PASSAGEM;
 
 
 
@@ -91,8 +154,11 @@ CREATE TABLE Projeto.CHECKIN(
 id INT(11) UNSIGNED PRIMARY KEY AUTO_INCREMENT NOT NULL,
 passagem_id INT(11) NOT NULL,
 ticket_malas VARCHAR(20) NOT NULL, -- MD5 gerado pelo Backend
-assento VARCHAR(5) NOT NULL -- Letra da Fileira + Número do Assento (Ex: B10)
+assento VARCHAR(20) NOT NULL, -- Letra da Fileira + Número do Assento (Ex: B10),
+date_create DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 )ENGINE = InnoDB;
+
+SELECT * FROM Projeto.CHECKIN;
 
 
 
@@ -119,6 +185,27 @@ INSERT INTO Projeto.VOO VALUES
 (5, 1, 'ST28-49', 1, 2, 1, '2015-10-23 00:00:00', 220, 'Confirmado', 179.90);
 
 SELECT * FROM VOO;
+
+SELECT
+	v.id as voo_id,
+    ae.nome as voo_nome,
+    v.codigo,
+    oa.nome as origem_aeroporto_nome,
+    da.nome as destino_aeroporto_nome,
+    v.escalas,
+    v.datahora,
+    v.assentos_disponiveis,
+    v.situacao,
+    v.valor
+FROM VOO as v
+LEFT JOIN Projeto.AERONAVE as ae ON v.aeronave_id = ae.id
+LEFT JOIN Projeto.AEROPORTO as oa ON v.origem_aeroporto_id = oa.id
+LEFT JOIN Projeto.AEROPORTO as da ON v.destino_aeroporto_id = da.id
+WHERE
+		v.origem_aeroporto_id = 1
+	AND v.destino_aeroporto_id = 2
+	AND v.situacao = 'Confirmado'
+    AND v.id != 1;
 
 -- Seleciona Vôo disponível por:
 --  + Quantidade de assentos disponíveis
@@ -148,6 +235,8 @@ WHERE
     AND v.destino_aeroporto_id = 2
     AND v.datahora = '2015-10-23 00:00:00'
     AND v.situacao = 'Confirmado';
+
+
 
 -- TABELA AEROPORTOS *****************************************
 DROP TABLE IF EXISTS Projeto.AEROPORTO;
@@ -187,55 +276,87 @@ INSERT INTO Projeto.AEROPORTO (`nome`, `status`) VALUES
 
 SELECT * FROM Projeto.AEROPORTO;
 
--- TABELA PAGAMENTO ****************************************
-CREATE TABLE Projeto.PAGAMENTO(
-cod_passageiro SMALLINT UNSIGNED NOT NULL,
-cod_classe_voo VARCHAR(60) NOT NULL,
-forma_de_pagamento VARCHAR(60) NOT NULL,
-aeroporto_de_destino VARCHAR(60) NOT NULL,
-data_da_partida VARCHAR(30) NOT NULL,
-hora_da_partida VARCHAR(30) NOT NULL,
-quantidade_passageiros_adultos INT(3),
-quantidade_passageiros_criancas INT(3),
-PRIMARY KEY (cod_passageiro)
+
+
+-- TABELA CARTAO DE DEBITO **********************************
+DROP TABLE IF EXISTS Projeto.CARTAO_DEBITO;
+CREATE TABLE Projeto.CARTAO_DEBITO(
+id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+banco VARCHAR(50) NOT NULL,
+agencia VARCHAR(10) NOT NULL,
+conta_corrente VARCHAR(15) NOT NULL,
+nome_titular VARCHAR(100) NOT NULL,
+cpf VARCHAR(14) NOT NULL,
+ddd VARCHAR(3) NOT NULL,
+telefone VARCHAR(10) NOT NULL
 )ENGINE = InnoDB;
 
--- TABELA CARTAO DE DEBTO **********************************
-CREATE TABLE Projeto.CARTAODEBTO(
-cpf VARCHAR(90) NOT NULL,
-banco VARCHAR(10)  NOT NULL,
-agencia VARCHAR(46) NOT NULL,
-conta VARCHAR(90) NOT NULL,
-nome_do_titular VARCHAR(234) NOT NULL,
-telefone VARCHAR(30),
-PRIMARY KEY (cpf)
-)ENGINE = InnoDB;
+INSERT INTO Projeto.CARTAO_DEBITO (
+    banco,
+    agencia,
+    conta_corrente,
+    nome_titular,
+    cpf,
+    ddd,
+    telefone
+) VALUES
+('Itaú', '9999', '99999-9', 'Gabriel Ramos Takeda', '123.456.879-09', '011', '9999-99999');
+
+SELECT * FROM Projeto.CARTAO_DEBITO;
+
+
 
 -- TABELA CARTO DE CREDITO *********************************
-CREATE TABLE Projeto.CARTAOCREDITO(
-
-nome_do_titular VARCHAR(30) NOT NULL,
-tipo_de_cartao VARCHAR(30) NOT NULL,
-numero_do_cartao VARCHAR(200) NOT NULL,
-data_validade VARCHAR(30) NOT NULL,
-cod_seguranca INT(30) NOT NULL,
-PRIMARY KEY (nome_do_titular)
+DROP TABLE IF EXISTS Projeto.CARTAO_CREDITO;
+CREATE TABLE Projeto.CARTAO_CREDITO(
+id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+nome_titular VARCHAR(100) NOT NULL,
+cpf VARCHAR(14) NOT NULL,
+numero_cartao VARCHAR(19) NOT NULL,
+data_vencimento_mes VARCHAR(2) NOT NULL,
+data_vencimento_ano VARCHAR(4) NOT NULL,
+codigo_seguranca VARCHAR(3) NOT NULL
 )ENGINE = InnoDB;
 
-CREATE TABLE Projeto.TICKET(
-cod_passagem INT (50) NOT NULL,
-cod_ticket INT (50) NOT NULL,
-PRIMARY KEY (usuario)
-)ENGINE = InnoDB;
+INSERT INTO Projeto.CARTAO_CREDITO (
+    nome_titular,
+    cpf,
+    numero_cartao,
+    data_vencimento_mes,
+    data_vencimento_ano,
+    codigo_seguranca
+) VALUES
+('Gabriel Ramos Takeda', '123.456.789-09', '9999 9999 9999 9999', '01', '2022', '123');
 
+SELECT * FROM Projeto.CARTAO_CREDITO;
+
+
+
+-- TABELA CARTO DE REEMBOLSO *********************************
+DROP TABLE IF EXISTS Projeto.REEMBOLSO;
 CREATE TABLE Projeto.REEMBOLSO(
-valor VARCHAR(50) NOT NULL,
-agencia VARCHAR (10) NOT NULL,
-conta VARCHAR (30) NOT NULL,
-nome VARCHAR (80) NOT NULL,
-cpf VARCHAR (30) NOT NULL,
-PRIMARY KEY (cpf)
+id INT(11) PRIMARY KEY AUTO_INCREMENT NOT NULL,
+voo_id INT(11) NOT NULL,
+valor DOUBLE NOT NULL,
+banco VARCHAR(10) NOT NULL,
+agencia VARCHAR(10) NOT NULL,
+conta_corrente VARCHAR(15) NOT NULL,
+nome_titular VARCHAR(100) NOT NULL,
+cpf VARCHAR(14) NOT NULL,
+date_create DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
 ) ENGINE = InnoDB;
+
+INSERT INTO Projeto.REEMBOLSO (
+	voo_id,
+	valor,
+    banco,
+	agencia,
+	conta_corrente,
+	nome_titular,
+	cpf
+) VALUES (1, 300.90, 'itau', '8493', '32050-4', 'Gabriel Ramos Takeda', '419-148-618-76');
+
+SELECT * FROM Projeto.REEMBOLSO;
 
 
 

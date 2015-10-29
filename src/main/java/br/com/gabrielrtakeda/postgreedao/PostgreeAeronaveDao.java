@@ -49,7 +49,7 @@ public class PostgreeAeronaveDao implements AeronaveDAOInterface  {
     }
 
     @Override
-    public AeronaveTO delete(String id)
+    public AeronaveTO delete(int id)
     throws NotFoundException, SQLException {
         return null;
     }
