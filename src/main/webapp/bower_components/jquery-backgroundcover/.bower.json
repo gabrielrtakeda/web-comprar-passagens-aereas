@@ -1,0 +1,15 @@
+{
+  "name": "jquery-backgroundcover",
+  "homepage": "https://github.com/kaliber5/jquery-backgroundcover",
+  "version": "1.1.1",
+  "_release": "1.1.1",
+  "_resolution": {
+    "type": "version",
+    "tag": "1.1.1",
+    "commit": "804205dfd294596edfbb0737b27b8311636b3bed"
+  },
+  "_source": "git://github.com/kaliber5/jquery-backgroundcover.git",
+  "_target": "~1.1.1",
+  "_originalSource": "jquery-backgroundcover",
+  "_direct": true
+}

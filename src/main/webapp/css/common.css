@@ -1,0 +1,74 @@
+.fullscreen-background {
+    background-color: rgb(0, 64, 94);
+    background-image: url('./../images/background-04.jpg');
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: -999;
+}
+
+body>header {
+    background: rgba(0, 64, 94, .3);
+    padding-bottom: 25px;
+    box-shadow: 0 0 15px rgb(0, 64, 94);
+}
+
+body>article {
+    background: #fff;
+    position: relative;
+    padding-top: 30px;
+    padding-bottom: 30px;
+    overflow: auto;
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.jumbotron {
+    background-color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, .2);
+}
+
+.jumbotron small {
+    font-size: 1.4em;
+    color: #aaa;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover {
+    border: 1px solid #eee;
+    background: transparent;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, .6);
+}
+
+.nav-pills>li>a {
+    color: #eee;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, .6);
+}
+
+.nav-pills>li>a:hover, .nav-pills>li>a:active, .nav-pills>li>a:focus {
+    background: #fff;
+    color: #23527c;
+    text-shadow: none;
+}
+
+.nav .open>a, .nav .open>a:focus, .nav .open>a:hover {
+    background: #fff;
+    color: #23527c;
+    text-shadow: none;
+}
+
+#error-alert,
+#success-alert {
+    display: none;
+}
+
+table tbody tr .btn-xs {
+    width: 35px;
+}
+
+h3 {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
