@@ -683,22 +683,13 @@
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/java/br/com/gabrielrtakeda/postgreedao",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/java/br/com/gabrielrtakeda/to",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/aeronave/partials",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/bower_components/bootstrap-sweetalert",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/bower_components/bootstrap-sweetalert/lib",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/bower_components/jquery-backgroundcover/dist",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/css/passagem",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js/helper",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js/network/handler",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js/passagem",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js/passagem/model",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/js/utils",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/node_modules/bootstrap/js",
 		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/passagem",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/passagem/partials",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/template/common",
-		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/voo/partials"
+		"/Users/gtakeda/git/web-comprar-passagem-aerea/web-comprar-passagens-aereas/src/main/webapp/passagem/partials"
 	],
 	"file_history":
 	[
@@ -1105,6 +1096,10 @@
 	"output.find_results":
 	{
 		"height": 0.0
+	},
+	"output.sftp":
+	{
+		"height": 97.0
 	},
 	"pinned_build_system": "",
 	"project": "web-comprar-passagem-aerea.sublime-project",
